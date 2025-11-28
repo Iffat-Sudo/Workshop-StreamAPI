@@ -7,6 +7,7 @@ import se.lexicon.vxo.model.PersonDto;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
@@ -99,7 +100,7 @@ public class StreamExercise {
 
         Person[] result = null;
 
-        // todo: write your code here
+        result=people.stream().filter(p->p.getFirstName().equalsIgnoreCase("Erik")).toArray(Person[]::new);
 
 
         assertNotNull(result);
@@ -115,7 +116,7 @@ public class StreamExercise {
 
         Optional<Person> optional = null;
 
-        // todo: write your code here
+        optional=people.stream().filter(p->p.equals(expected)).findFirst();
 
 
         assertNotNull(optional);
@@ -132,7 +133,7 @@ public class StreamExercise {
 
         Optional<Person> optional = null;
 
-        // todo: write your code here
+        optional=people.stream().min((p1, p2) ->p1.getDateOfBirth().compareTo(p2.getDateOfBirth()));
 
         assertNotNull(optional);
         assertEquals(expectedBirthDate, optional.get().getDateOfBirth());
@@ -148,7 +149,8 @@ public class StreamExercise {
 
         List<PersonDto> dtoList = null;
 
-        // todo: write your code here
+        dtoList=people.stream().filter(p->p.getDateOfBirth().isBefore(date)).map
+                (p->new PersonDto(p.getPersonId(), p.getFirstName() + p.getLastName())).collect(Collectors.toList());
 
 
         assertNotNull(dtoList);
@@ -164,10 +166,11 @@ public class StreamExercise {
     public void task10() {
         String expected = "WEDNESDAY 19 DECEMBER 2012";
         int personId = 5914;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy", Locale.ENGLISH);
 
         Optional<String> optional = null;
 
-        // todo: write your code here
+        optional=Optional.of(people.stream().filter(p->p.getPersonId()==personId).findFirst().get().getDateOfBirth().format(formatter).toUpperCase().toString());
 
 
         assertNotNull(optional);
