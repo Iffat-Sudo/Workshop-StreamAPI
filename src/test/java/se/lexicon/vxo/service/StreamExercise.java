@@ -9,8 +9,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  * Your task is to make all tests pass (except task1 because its non-testable).
@@ -38,7 +40,7 @@ public class StreamExercise {
     public void task2() {
         long amount = 0;
 
-        // todo: write your code here
+        amount=people.stream().count();
 
         assertEquals(10000, amount);
     }
@@ -51,7 +53,8 @@ public class StreamExercise {
         long amount = 0;
         int expected = 90;
 
-        // todo: write your code here
+        amount=people.stream().filter(p->p.getLastName().equalsIgnoreCase("Andersson")).count();
+
 
         assertEquals(expected, amount);
     }
@@ -64,7 +67,7 @@ public class StreamExercise {
         int expectedSize = 4988;
         List<Person> females = null;
 
-        // todo: write your code here
+        females=people.stream().filter(p ->p.getGender().equals(Gender.FEMALE)).collect(Collectors.toList());
 
         assertNotNull(females);
         assertEquals(expectedSize, females.size());
@@ -79,7 +82,7 @@ public class StreamExercise {
         Set<LocalDate> dates = null;
 
 
-        // todo: write your code here
+        dates=people.stream().map(Person::getDateOfBirth).collect(Collectors.toCollection(TreeSet::new));
 
 
         assertNotNull(dates);
