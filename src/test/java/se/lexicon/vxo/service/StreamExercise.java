@@ -8,9 +8,13 @@ import se.lexicon.vxo.model.PersonDto;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -189,7 +193,7 @@ public class StreamExercise {
         double expected = 54.42;
         double averageAge = 0;
 
-        // todo: write your code here
+        averageAge=people.stream().mapToInt(personToAge).average().orElse(0.0);
 
         assertTrue(averageAge > 0);
         assertEquals(expected, averageAge, .01);
@@ -204,7 +208,9 @@ public class StreamExercise {
 
         String[] result = null;
 
-        // todo: write your code here
+        Predicate<String> palindromes=name->name.equalsIgnoreCase(new StringBuilder(name).reverse().toString());
+
+        result=people.stream().map(Person::getFirstName).distinct().filter(palindromes).sorted().toArray(String[]::new);
 
         assertNotNull(result);
         assertArrayEquals(expected, result);
@@ -218,7 +224,7 @@ public class StreamExercise {
         int expectedSize = 107;
         Map<String, List<Person>> personMap = null;
 
-        // todo: write your code here
+        personMap= people.stream().collect(Collectors.groupingBy(Person::getLastName));
 
         assertNotNull(personMap);
         assertEquals(expectedSize, personMap.size());
@@ -230,8 +236,11 @@ public class StreamExercise {
     @Test
     public void task14() {
         LocalDate[] _2020_dates = null;
+        LocalDate startDate = LocalDate.parse("2020-01-01");
+        LocalDate endDate = LocalDate.parse("2021-12-31");
 
-        // todo: write your code here
+
+        _2020_dates= Stream.iterate(startDate, d -> d.plusDays(1)).limit(ChronoUnit.DAYS.between(startDate,endDate)+1).toArray(LocalDate[]::new);
 
         assertNotNull(_2020_dates);
         assertEquals(366, _2020_dates.length);
